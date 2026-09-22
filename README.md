@@ -9,4 +9,4 @@
 
 **Nível 10 do Maze:** https://blockly.games/maze?lang=en&level=10&&skin=0#b5w7ui
 
-**Nível 10 jogo Turtle:** https://blockly.games/turtle?lang=en&level=10#garnys
+**Nível 10 jogo Turtle:** https://blockly.games/turtle?lang=en&level=10#ikfdi8

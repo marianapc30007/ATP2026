@@ -7,4 +7,4 @@
 
 **Resumo:** A partir da linguagem Python foi possível criar um jogo, com 2 modos distintos e um menu principal. Foram postos em prática os conceitos aprendidos na aula teórica através, tanto da criação dos modos como na previsão de possíveis erros do jogo. 
 
-Código do Jogo: [Jogo Adivinha o número!](./TPC2.py)
+Código do Jogo: [Jogo Adivinha O Número!](./TPC2.py)

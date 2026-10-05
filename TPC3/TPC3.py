@@ -42,7 +42,7 @@ def computador_começa():
             break
 
         número_utilizador = jogada_utilizador(total)
-        total += número_utilizador  #ADICIONA O NÚMERO DO UTILIZADOR AO TOTAL
+        total += número_utilizador  #ADICIONA O NÚMERO DO UTLIZADOR AO TOTAL
         print(f"Jogaste {número_utilizador}. O total agora é {total}")
 
 
@@ -62,7 +62,7 @@ def jogador_começa():
             break
         
         número_pc = jogada_computador(total)
-        total += número_pc  #ADICIONA O NÚMERO DO UTILIZADOR AO TOTAL
+        total += número_pc  #ADICIONA O NÚMERO DO PC AO TOTAL
         print(f"O computador jogou {número_pc}. O total agora é {total}")
         
         if total == 100:

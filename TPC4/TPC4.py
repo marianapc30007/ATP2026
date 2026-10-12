@@ -62,7 +62,7 @@ def menor_elemento(lista_interna):
             menor = elemento
     return menor
 
-def 
+
 
 
 #FALTA APRENDER ORDENAR LISTA E VER SE LISTA ESTÁ VAZIA -- DEPOIS ACABAR TPC

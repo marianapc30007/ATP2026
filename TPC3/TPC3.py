@@ -16,16 +16,19 @@ def jogada_computador(total):
 #INSTRUÇÕES JOGADA UTILIZADOR (independente de modo)
 def jogada_utilizador(total):
     máximo = min(10, 100 - total) #Não deixa ultrapassar o 100
-    while True:
+    jogada_valida = False
+    jogada = 0
+    while jogada_valida == False:
         try:
             jogada = int(input(f"TOTAL ATUAL: {total}. Qual a sua jogada, de 1 a 10?  "))
             if jogada in range (1, máximo + 1):
-                return jogada
+                jogada_valida = True
             else:
                 print("Jogada Inválida! Número fora do intervalo de 1 a 10.")
         except ValueError:
             print("Jogada Inválida! Introduz um número de 1 a 10 inteiro!")
-
+    
+    return jogada
 
 #INSTRUÇÕES MODO 1 
 def computador_começa():
@@ -39,12 +42,10 @@ def computador_começa():
     
         if total == 100:
             print("O computador atingiu o 100 e venceu!")
-            break
-
-        número_utilizador = jogada_utilizador(total)
-        total += número_utilizador  #ADICIONA O NÚMERO DO UTLIZADOR AO TOTAL
-        print(f"Jogaste {número_utilizador}. O total agora é {total}")
-
+        else:
+            número_utilizador = jogada_utilizador(total)
+            total += número_utilizador  #ADICIONA O NÚMERO DO UTLIZADOR AO TOTAL
+            print(f"Jogaste {número_utilizador}. O total agora é {total}")
 
 
 #INSTRUÇÕES MODO 2
@@ -59,15 +60,13 @@ def jogador_começa():
             
         if total == 100:
             print("Parabéns, atingiu o 100 e venceu!")
-            break
-        
-        número_pc = jogada_computador(total)
-        total += número_pc  #ADICIONA O NÚMERO DO PC AO TOTAL
-        print(f"O computador jogou {número_pc}. O total agora é {total}")
+        else:
+            número_pc = jogada_computador(total)
+            total += número_pc  #ADICIONA O NÚMERO DO PC AO TOTAL
+            print(f"O computador jogou {número_pc}. O total agora é {total}")
         
         if total == 100:
             print("O computador atingiu o 100, perdeu!")
-            break
 
         
 def menu():

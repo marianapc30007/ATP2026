@@ -181,9 +181,15 @@ while exibir_menu:
             if len(lista_interna) == 0:
                 print("A lista está vazia.")
             else:
-                número = int(input("Qual o elemento a procurar ?"))
-                resultado = procurar_elemento(lista_interna, número)
-                print(f"Posição do elemento: {resultado}")
+                try:
+                    número = int(input("Qual o elemento a procurar ?"))
+                    resultado = procurar_elemento(lista_interna, número)
+                    if resultado == -1:
+                        print("Elemento não encontrado.")
+                    else:
+                        print(f"Posição do elemento: {resultado}")
+                except ValueError:
+                    print("Valor inválido!")
 
         elif opção == "0":
             print(f"Fim da aplicação. Lista guardada: {lista_interna}")

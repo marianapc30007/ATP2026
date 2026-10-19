@@ -15,7 +15,7 @@ def menu():
     print("(9) Procura um elemento")
     print("(0) SAIR")
 
-#LISTA ALEATORIA NÚMEROS INPUT: quantidade números . OUTPUT: lista criada
+#LISTA ALEATORIA 
 def criar_lista():
     lista = []
     válido = False

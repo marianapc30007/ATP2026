@@ -113,16 +113,14 @@ def exibir_menu():
 
  
 def principal():
-    tab = tabExemplo
-    print("Bem-vindo! Existe uma tabela de exemplo (clique na opção 4).")
-
+    tabMeteo1 = [((2022,1,20), 2, 16, 0),((2022,1,21), 1, 13, 0.2), ((2022,1,22), 7, 17, 0.01)]
+    print(f"Tabela meteriológica:{tabMeteo1}")
     opcao = -1
     while opcao != 0:
         exibir_menu()
-        opcao = lerInteiro("Opção: ")
-
+        opcao = int(input("Escolha uma opção"))
     if opcao == 0:
-        print("A terminar a aplicação. Até à próxima!")
+        print("Até à próxima!")
     elif opcao == 1:
         print(medias(tabMeteo1))
     elif opcao == 2:

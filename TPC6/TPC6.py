@@ -33,17 +33,17 @@ def diasDoMes(ano, mes):
  
 def tabelaVazia(tabMeteo):
     if len(tabMeteo) == 0:
-        print("A tabela está vazia! Crie ou carregue uma tabela primeiro.")
+        print("A tabela está vazia! Crie tabela primeiro.")
         return True
     return False
  
 
  
 def criarTab():
-    n = lerInteiro("Quantos dias quer registar? ")
+    n = lerInteiro("Quantos dias pretende registar? ")
     while n < 1:
-        print("Tem de registar pelo menos 1 dia.")
-        n = lerInteiro("Quantos dias quer registar? ")
+        print("Tem de registar 1 dia.")
+        n = lerInteiro("Quantos dias pretende registar? ")
  
     tab = []
     for i in range(1, n + 1):
@@ -68,7 +68,7 @@ def criarTab():
         tmin = lerReal("Temperatura mínima (ºC): ")
         tmax = lerReal("Temperatura máxima (ºC): ")
         while tmax < tmin:
-            print("A máxima não pode ser inferior à mínima.")
+            print("A máxima tem de ser superior à mínima.")
             tmax = lerReal("Temperatura máxima (ºC): ")
  
         prec = lerReal("Precipitação (mm): ")
@@ -101,8 +101,8 @@ def carregaTabMeteo(fnome):
     res = []
     file = open(fnome, "r")
     for line in file:
-        line = line.strip()          # tira o \n do fim
-        if line == "":               # ignora linhas em branco
+        line = line.strip()          
+        if line == "":              
             continue
         campos = line.split("|")
         data = campos[0]
@@ -167,16 +167,16 @@ def grafTabMeteo(t):
     try:
         from matplotlib import pyplot as plt
     except ImportError:
-        print("A biblioteca matplotlib não está instalada.")
-        print("Instale-a com:  pip install matplotlib")
+        print("A matplotlib não está instalada.")
+        print("Instale:  pip install matplotlib")
         return
  
     x = [f"{data[0]}-{data[1]}-{data[2]}" for data, *_ in t]
     y_min = [tmin for data, tmin, tmax, prec in t]
     y_max = [tmax for data, tmin, tmax, prec in t]
     y_prec = [prec for data, tmin, tmax, prec in t]
+
  
-    # Gráfico 1: temperaturas
     plt.plot(x, y_min, color="blue", marker="o", label="Tmin (ºC)")
     plt.plot(x, y_max, color="red", marker="o", label="Tmax (ºC)")
     plt.title("Temperatura mínima e máxima")
@@ -188,7 +188,7 @@ def grafTabMeteo(t):
     plt.tight_layout()
     plt.show()
  
-    # Gráfico 2: precipitação
+  
     plt.bar(x, y_prec, color="green", label="Precipitação (mm)")
     plt.title("Precipitação")
     plt.xlabel("Data")
@@ -218,22 +218,20 @@ def mostraPares(pares, unidade):
  
  
 def mostraMenu():
-    print("""
-===== ANÁLISE DE TABELAS METEOROLÓGICAS =====
- 1) Criar uma nova tabela (introduzir dados)
- 2) Carregar tabela de um ficheiro
- 3) Guardar tabela num ficheiro
- 4) Mostrar a tabela atual
- 5) Temperatura média de cada dia
- 6) Temperatura mínima mais baixa
- 7) Amplitude térmica de cada dia
- 8) Dia com maior precipitação
- 9) Dias com precipitação superior a um limite
-10) Maior período consecutivo com precipitação abaixo de um limite
-11) Gráficos (temperaturas e precipitação)
- 0) Sair
-""")
- 
+    print("""           ANÁLISE DE TABELAS METEOROLÓGICAS          """)
+    print("1) Criar uma nova tabela")
+    print("2)Carregar tabela de um ficheiro")
+    print("3)Guardar tabela num ficheiro") 
+    print("4) Mostrar a tabela atual")
+    print("5)Temperatura média de cada dia") 
+    print("6)Temperatura mínima mais baixa")
+    print("7)Amplitude térmica de cada dia") 
+    print("8) Dia com maior precipitação")
+    print("9)Dias com precipitação superior a um limite")
+    print("10)Maior período consecutivo com precipitação abaixo de um limite") 
+    print("11) Gráficos (temperaturas e precipitação)")
+    print("0) Sair")
+
  
 def principal():
     tab = tabExemplo       # começa com a tabela de exemplo
@@ -314,5 +312,5 @@ def principal():
         else:
             print("Opção inválida! Tente novamente.")
 
-    principal()
+principal()
  

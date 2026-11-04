@@ -94,7 +94,7 @@ def grafTabMeteo(t):
         plt.show()
 
         plt.bar(x,y_prec, color = "green", marker = "o", label = "Precipitação(mm)")
-        Plt.title("Precipitação")
+        plt.title("Precipitação")
         plt.show()
         return
  

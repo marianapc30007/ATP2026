@@ -1,85 +1,6 @@
 
-tabExemplo = [((2022, 1, 20), 2.0, 16.0, 0.0),
-              ((2022, 1, 21), 1.0, 13.0, 0.2),
-              ((2022, 1, 22), 7.0, 17.0, 0.01)]
-
- 
-def lerInteiro(mensagem):
-    while True:
-        try:
-            return int(input(mensagem))
-        except ValueError:
-            print("Valor inválido. Escreva um número inteiro.")
- 
- 
-def lerReal(mensagem):
-    while True:
-        try:
-            return float(input(mensagem))
-        except ValueError:
-            print("Valor inválido. Escreva um número (ex: 12.5).")
- 
- 
-def diasDoMes(ano, mes):
-    if mes in (1, 3, 5, 7, 8, 10, 12):
-        return 31
-    elif mes in (4, 6, 9, 11):
-        return 30
-    elif (ano % 4 == 0 and ano % 100 != 0) or (ano % 400 == 0):
-        return 29
-    else:
-        return 28
- 
- 
-def tabelaVazia(tabMeteo):
-    if len(tabMeteo) == 0:
-        print("A tabela está vazia! Crie tabela primeiro.")
-        return True
-    return False
  
 
- 
-def criarTab():
-    n = lerInteiro("Quantos dias pretende registar? ")
-    while n < 1:
-        print("Tem de registar 1 dia.")
-        n = lerInteiro("Quantos dias pretende registar? ")
- 
-    tab = []
-    for i in range(1, n + 1):
-        print(f"\n--- Dia {i} de {n} ---")
- 
-        ano = lerInteiro("Ano: ")
-        while ano < 1:
-            print("Ano inválido.")
-            ano = lerInteiro("Ano: ")
- 
-        mes = lerInteiro("Mês (1-12): ")
-        while mes < 1 or mes > 12:
-            print("Mês inválido.")
-            mes = lerInteiro("Mês (1-12): ")
- 
-        maxDia = diasDoMes(ano, mes)
-        dia = lerInteiro(f"Dia (1-{maxDia}): ")
-        while dia < 1 or dia > maxDia:
-            print("Dia inválido.")
-            dia = lerInteiro(f"Dia (1-{maxDia}): ")
- 
-        tmin = lerReal("Temperatura mínima (ºC): ")
-        tmax = lerReal("Temperatura máxima (ºC): ")
-        while tmax < tmin:
-            print("A máxima tem de ser superior à mínima.")
-            tmax = lerReal("Temperatura máxima (ºC): ")
- 
-        prec = lerReal("Precipitação (mm): ")
-        while prec < 0:
-            print("A precipitação não pode ser negativa.")
-            prec = lerReal("Precipitação (mm): ")
- 
-        tab.append(((ano, mes, dia), tmin, tmax, prec))
-    return tab
-
- 
 def medias(tabMeteo):
     res = []
     for data, tmin, tmax, prec in tabMeteo:
@@ -100,18 +21,11 @@ def guardaTabMeteo(t, fnome):
 def carregaTabMeteo(fnome):
     res = []
     file = open(fnome, "r")
-    for line in file:
-        line = line.strip()          
-        if line == "":              
-            continue
-        campos = line.split("|")
-        data = campos[0]
-        tmin = campos[1]
-        tmax = campos[2]
-        prec = campos[3]
-        ano, mes, dia = data.split("-")
-        res.append(((int(ano), int(mes), int(dia)),
-                    float(tmin), float(tmax), float(prec)))
+    for line in file:  
+            data, tmin, tmax, prec, _ = line.split("|")  
+            ano, mes , dia = data.split("-")    
+            tuplo = ((ano, mes , dia), tmin, tmax, prec)
+            res.append(tuplo)
     file.close()
     return res
  
@@ -162,155 +76,73 @@ def maxPeriodoCalor(tabMeteo, p):
             atual = 0
     return maximo
  
+from matplotlib import pyplot as plt
  
 def grafTabMeteo(t):
-    try:
-        from matplotlib import pyplot as plt
-    except ImportError:
-        print("A matplotlib não está instalada.")
-        print("Instale:  pip install matplotlib")
+
+        y_min = [tmin for data, tmin, tmax, prec in t]
+        y_max = [tmax for data, tmin, tmax, prec in t]
+        y_prec = [prec for data, tmin, tmax, prec in t]
+
+        x = [f"{data[0]}-{data[1]}-{data[2]}" for data, *_ in t]
+
+        plt.plot(x,y_min, color = "blue", marker = "o", label = "Tmin ºC")
+        plt.show(x,y_min, color = "red", marker = "o", label = "Tmax ºC")
+        plt.title("Temperatura")
+        plt.legend()
+        plt.grid()
+        plt.show()
+
+        plt.bar(x,y_prec, color = "green", marker = "o", label = "Precipitação(mm)")
+        Plt.title("Precipitação")
+        plt.show()
         return
  
-    x = [f"{data[0]}-{data[1]}-{data[2]}" for data, *_ in t]
-    y_min = [tmin for data, tmin, tmax, prec in t]
-    y_max = [tmax for data, tmin, tmax, prec in t]
-    y_prec = [prec for data, tmin, tmax, prec in t]
-
- 
-    plt.plot(x, y_min, color="blue", marker="o", label="Tmin (ºC)")
-    plt.plot(x, y_max, color="red", marker="o", label="Tmax (ºC)")
-    plt.title("Temperatura mínima e máxima")
-    plt.xlabel("Data")
-    plt.ylabel("ºC")
-    plt.xticks(rotation=45)
-    plt.legend()
-    plt.grid()
-    plt.tight_layout()
-    plt.show()
- 
-  
-    plt.bar(x, y_prec, color="green", label="Precipitação (mm)")
-    plt.title("Precipitação")
-    plt.xlabel("Data")
-    plt.ylabel("mm")
-    plt.xticks(rotation=45)
-    plt.legend()
-    plt.grid()
-    plt.tight_layout()
-    plt.show()
-    return
- 
-def formataData(data):
-    ano, mes, dia = data
-    return f"{dia:02d}/{mes:02d}/{ano}"
- 
- 
-def mostraTabela(tabMeteo):
-    print(f"\n{'Data':<12}{'Tmin':>8}{'Tmax':>8}{'Prec(mm)':>10}")
-    print("-" * 38)
-    for data, tmin, tmax, prec in tabMeteo:
-        print(f"{formataData(data):<12}{tmin:>8.1f}{tmax:>8.1f}{prec:>10.2f}")
- 
- 
-def mostraPares(pares, unidade):
-    for data, valor in pares:
-        print(f"  {formataData(data)} -> {valor:.2f} {unidade}")
- 
- 
-def mostraMenu():
-    print("""           ANÁLISE DE TABELAS METEOROLÓGICAS          """)
-    print("1) Criar uma nova tabela")
-    print("2)Carregar tabela de um ficheiro")
-    print("3)Guardar tabela num ficheiro") 
-    print("4) Mostrar a tabela atual")
-    print("5)Temperatura média de cada dia") 
-    print("6)Temperatura mínima mais baixa")
-    print("7)Amplitude térmica de cada dia") 
-    print("8) Dia com maior precipitação")
-    print("9)Dias com precipitação superior a um limite")
-    print("10)Maior período consecutivo com precipitação abaixo de um limite") 
-    print("11) Gráficos (temperaturas e precipitação)")
-    print("0) Sair")
+def exibir_menu():
+    print("     MENU PRINCIPAL      ")
+    print("1: Média temperaturas")
+    print("2: Guardar tabela meteriológica")
+    print("3: Carregar tabela meteriológica")
+    print("4: Temperatura mínima mais baixa registada")
+    print("5: Amplitude térmica")
+    print("6: Dia com maior precipitação")
+    print("7: Dias com precipitação superior a um limite")
+    print("8: Maior período de calor")
+    print("9: Gráficos da temp mínima, máxima e de precipitação.")
+    print("0: Sair da aplicação")
 
  
 def principal():
-    tab = tabExemplo       # começa com a tabela de exemplo
-    print("Bem-vindo! Foi carregada uma tabela de exemplo (opção 4 para ver).")
- 
+    tab = tabExemplo
+    print("Bem-vindo! Existe uma tabela de exemplo (clique na opção 4).")
+
     opcao = -1
     while opcao != 0:
-        mostraMenu()
+        exibir_menu()
         opcao = lerInteiro("Opção: ")
- 
-        if opcao == 0:
-            print("A terminar a aplicação. Até à próxima!")
- 
-        elif opcao == 1:
-            tab = criarTab()
-            print("\nTabela criada com sucesso!")
- 
-        elif opcao == 2:
-            nome = input("Nome do ficheiro (ex: meteorologia.txt): ")
-            try:
-                tab = carregaTabMeteo(nome)
-                print(f"Tabela carregada ({len(tab)} dias).")
-            except FileNotFoundError:
-                print("Ficheiro não encontrado.")
-            except (ValueError, IndexError):
-                print("O ficheiro não tem o formato esperado.")
- 
-        elif opcao == 3:
-            if not tabelaVazia(tab):
-                nome = input("Nome do ficheiro (ex: meteorologia.txt): ")
-                guardaTabMeteo(tab, nome)
-                print(f"Tabela guardada em '{nome}'.")
- 
-        elif opcao == 4:
-            if not tabelaVazia(tab):
-                mostraTabela(tab)
- 
-        elif opcao == 5:
-            if not tabelaVazia(tab):
-                print("\nTemperatura média de cada dia:")
-                mostraPares(medias(tab), "ºC")
- 
-        elif opcao == 6:
-            if not tabelaVazia(tab):
-                print(f"\nTemperatura mínima mais baixa: {minMin(tab):.1f} ºC")
- 
-        elif opcao == 7:
-            if not tabelaVazia(tab):
-                print("\nAmplitude térmica de cada dia:")
-                mostraPares(amplTerm(tab), "ºC")
- 
-        elif opcao == 8:
-            if not tabelaVazia(tab):
-                data, valor = maxChuva(tab)
-                print(f"\nMaior precipitação: {valor} mm no dia {formataData(data)}")
- 
-        elif opcao == 9:
-            if not tabelaVazia(tab):
-                p = lerReal("Limite de precipitação (mm): ")
-                lista = diasChuvosos(tab, p)
-                if len(lista) == 0:
-                    print(f"\nNenhum dia teve precipitação superior a {p} mm.")
-                else:
-                    print(f"\nDias com precipitação superior a {p} mm:")
-                    mostraPares(lista, "mm")
- 
-        elif opcao == 10:
-            if not tabelaVazia(tab):
-                p = lerReal("Limite de precipitação (mm): ")
-                n = maxPeriodoCalor(tab, p)
-                print(f"\nMaior nº de dias consecutivos com precipitação "
-                      f"abaixo de {p} mm: {n}")
- 
-        elif opcao == 11:
-            if not tabelaVazia(tab):
-                grafTabMeteo(tab)
- 
-        else:
-            print("Opção inválida! Tente novamente.")
+
+    if opcao == 0:
+        print("A terminar a aplicação. Até à próxima!")
+    elif opcao == 1:
+        print(medias(tabMeteo1))
+    elif opcao == 2:
+        print(guardaTabMeteo(tabMeteo1, "meteriologia.txt"))
+    elif opcao == 3:
+        print(carregaTabMeteo("meteriologia.txt"))
+    elif opcao == 4:
+        print(minMin(tabMeteo1))
+    elif opcao == 5:
+        print(amplTerm(tabMeteo1))
+    elif opcao == 6:
+        print(maxChuva(tabMeteo1))
+    elif opcao == 7:
+        print(diasChuvosos(tabMeteo1, 0))    
+    elif opcao == 8:
+        print(maxPeriodoCalor(tabMeteo1, 0.6))
+    elif opcao ==9:
+        print(grafTabMeteo(tabMeteo1))
+    else:
+        print("Opção inválida! Tente novamente.")
 
 principal()
  
